@@ -1,5 +1,5 @@
 # nat-type 判断NAT类型
-判断NAT类型, NAT类型有常见的4种. Full Cone NAT, Restricted Cone NAT, Port Restricted Cone NAT, Symmetric NAT
+判断NAT类型, NAT类型有常见的4种. Full Cone NAT, Restricted Cone NAT, Port Restricted Cone NAT, Symmetric NAT. (安全等级从低到高排列)
 #NAT类型特点描述
 ## **Full Cone NAT**:  
 &ensp;&ensp;&ensp;&ensp;内网主机建立一个UDP socket(LocalIP:LocalPort) 第一次使用这个socket给外部主机发送数据时NAT会给其分配一个公网(PublicIP,PublicPort),以后用这个socket向外面**任何主机**发送数据都将使用这对(PublicIP,PublicPort)。此外**任何外部主机**只要知道这个(PublicIP,PublicPort)就可以发送数据给(PublicIP,PublicPort)，内网的主机就能收到这个数据包 
@@ -28,3 +28,7 @@
 2.  如果s2不能连通c1,则让c1用同一个socket向s2发命令. 然后s2收到c1命令后, 如果端口改变, 则是Symmetric NAT.  
 
 3.  如果端口相同, s2使用另外的socket连接c1,如果能连通,说明是Restricted Cone NAT, 否则是Port Restricted NAT.
+
+##补充说明
+如果存在路由器级联的时候, NAT类型会由安全等级最高的一台路由器决定.
+比如例子中的c1, 如果有路由r1, r2  . r1直接连接inter网, r2的wan口连接到r1, c1连接到r2上.  这时通过c1得到的路由器NAT类型是由r1与r2中NAT安全等级最高的决定的.
